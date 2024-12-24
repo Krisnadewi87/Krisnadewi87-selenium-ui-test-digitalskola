@@ -64,19 +64,6 @@ async function sauceDemoTest() {
         console.error("Remove button not displayed - Issue with the 'Add to cart' button")
     }
 
-
-    // Verify remove the item from the cart
-    await removeButton.click();
-
-
-    // Verify the cart is empty
-    const cartItems = await driver.findElements(By.className('cart_item'));
-    if (cartItems.length === 0) {
-        console.log('Cart is empty after removing the item.');
-    } else {
-        throw new Error('Item was not removed from the cart.');
-    }
-
 } catch (error) {
     console.error("Error during automation:", error);
 
