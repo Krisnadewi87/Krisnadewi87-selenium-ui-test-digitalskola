@@ -27,14 +27,14 @@ describe("Verify Item in Cart", function () {
     await loginPage.login("standard_user", "secret_sauce");
   });
 
-  it("Verify the item is in the cart page", async function () {
-    // Menambahkan item ke cart
+  it("Verify the item is on the cart page", async function () {
+    // Verify add item to cart
     await dashboardPage.addItemToCart();
 
-    // Pergi ke halaman cart
+    // Verify go to cart page
     await dashboardPage.goToCart();
 
-    // Verifikasi bahwa item ada di dalam cart
+    // Verify item displayed on cart page
     const isItemInCart = await cartPage.isItemInCart();
     expect(isItemInCart).to.be.true;
   });
