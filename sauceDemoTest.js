@@ -38,11 +38,13 @@ async function sauceDemoTest() {
 
     // Verify able to click Add to cart button on an item
     const addToCartButton = await driver.findElement(By.id("add-to-cart-sauce-labs-backpack"));
+    assert.strictEqual(await addToCartButton.isDisplayed(), true, "Add to cart button is not displayed");
     await addToCartButton.click();
 
 
     // Verify able to add item to the cart and the cart count is updated
     const cartBadge = await driver.findElement(By.className('shopping_cart_badge'));
+    assert.strictEqual(await cartBadge.isDisplayed(), true, "Cart Badge is not displayed");
     await driver.wait(until.elementTextIs(cartBadge, '1'));
 
 
