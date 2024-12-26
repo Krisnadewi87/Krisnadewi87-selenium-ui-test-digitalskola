@@ -1,14 +1,45 @@
-const { By } = require('selenium-webdriver')
+const { By } = require("selenium-webdriver");
 
 class DashboardPage {
-    constructor(driver){
-        this.driver = driver;
-    }
-    
-    async isOnDashboard() {
-        const title = await this.driver.findElement(By.className('title'));
-        return title.getText();
-    }
+  constructor(driver) {
+    this.driver = driver;
+
+    // Dashboard Elements
+    this.productList = By.className("inventory_list"); // Product list
+    this.addToCartButton = By.id("add-to-cart-sauce-labs-backpack"); // Add to cart item for first product
+    this.cartIcon = By.className("shopping_cart_link"); // Cart icon
+    this.cartBadge = By.className("shopping_cart_badge"); // Cart badge
+  }
+
+  // Verify the dashboard logo is displayed
+  async isTitleTextVisible() {
+    const titleText = await this.driver.findElement(this.titleText);
+    return await titleText.isDisplayed();
+  }
+
+  // Verify product list displayed
+  async isProductListVisible() {
+    const productList = await this.driver.findElement(this.productList);
+    return await productList.isDisplayed();
+  }
+
+  // Verify add item to the cart
+  async addItemToCart() {
+    const addToCartBtn = await this.driver.findElement(this.addToCartButton);
+    await addToCartBtn.click();
+  }
+
+  // Verify cart badge displayed
+  async isCartBadgetVisible() {
+    const cartBadge = await this.driver.findElement(this.cartBadge);
+    return await cartBadge.isDisplayed();
+  }
+
+  // Verify go to the cart page
+  async goToCart() {
+    const cartIcon = await this.driver.findElement(this.cartIcon);
+    await cartIcon.click();
+  }
 }
 
 module.exports = DashboardPage;

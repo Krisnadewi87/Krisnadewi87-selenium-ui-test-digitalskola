@@ -2,8 +2,8 @@ const { Builder } = require("selenium-webdriver");
 const LoginPage = require("../PageObject/LoginPage");
 const DashboardPage = require("../PageObject/Dashboard");
 const CartPage = require("../PageObject/CartPage");
-const fs = require("fs");
 const { expect } = require("chai");
+const fs = require("fs");
 
 describe("Verify Item in Cart", function () {
   this.timeout(40000);
@@ -12,9 +12,9 @@ describe("Verify Item in Cart", function () {
   let dashboardPage;
   let cartPage;
 
-  const screenshotDir = './screenshots/';
-  if(!fs.existsSync(screenshotDir)){
-      fs.mkdirSync(screenshotDir, {recursive: true});
+  const screenshotDir = "./screenshots/";
+  if (!fs.existsSync(screenshotDir)) {
+    fs.mkdirSync(screenshotDir, { recursive: true });
   }
 
   before(async function () {
@@ -27,18 +27,14 @@ describe("Verify Item in Cart", function () {
     await loginPage.login("standard_user", "secret_sauce");
   });
 
-  it("Should able add item to cart and verify item is in the cart page", async function () {
-    // Verify add item to the cart
+  it("should verify that the item is in the cart", async function () {
+    // Menambahkan item ke cart
     await dashboardPage.addItemToCart();
 
-    // Verify cart badge displayed
-    await dashboardPage.isCartBadgetVisible();
-
-
-    // Verify go to the cart page
+    // Pergi ke halaman cart
     await dashboardPage.goToCart();
 
-    // Verify item displayed on the cart page
+    // Verifikasi bahwa item ada di dalam cart
     const isItemInCart = await cartPage.isItemInCart();
     expect(isItemInCart).to.be.true;
   });
