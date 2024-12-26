@@ -15,7 +15,7 @@ async function sauceDemoTest() {
     await driver.findElement(By.id('login-button')).click();
 
     // Verify the dashboard logo is displayed
-    let titleText = await driver.findElement(By.xpath("//div[@class='app_logo']")).getText();
+    const titleText = await driver.findElement(By.xpath("//div[@class='app_logo']")).getText();
     assert.strictEqual(titleText.includes('Swag Labs'), true, "Title does not include 'Swag Labs'");
     console.log(titleText);
 
@@ -24,11 +24,11 @@ async function sauceDemoTest() {
     assert.strictEqual(await menuButton.isDisplayed(), true, "Menu button is not displayed");
 
     // Verify the cart icon on the dashboard is displayed
-    const cartIcon = await driver.wait(until.elementLocated(By.className("shopping_cart_link")), 5000);
+    const cartIcon = await driver.findElement(By.className("shopping_cart_link"));
     assert.strictEqual(await cartIcon.isDisplayed(), true, "Cart icon is not displayed");
 
     // Verify product lists are displayed
-    const productList = await driver.findElements(By.className("inventory_item"), 5000);
+    const productList = await driver.findElements(By.className("inventory_item"));
     if (productList.length > 0) {
         console.log('Product list is displayed - Dashboard loaded successfully.');
       } else {
@@ -36,41 +36,32 @@ async function sauceDemoTest() {
       }
 
 
-    // Verify ale to click Add to cart button on an item
+    // Verify able to click Add to cart button on an item
     const addToCartButton = await driver.findElement(By.id("add-to-cart-sauce-labs-backpack"));
     await addToCartButton.click();
 
 
     // Verify able to add item to the cart and the cart count is updated
-    const cartBadge = await driver.findElement(By.className("shopping_cart_badge"));
-    const cartCount = await cartBadge.getText();
-    console.log('Cart count after adding an item:', cartCount);
-    if (cartCount !== '1') {
-        throw new Error('Cart count did not update correctly.');
-    }
+    const cartBadge = await driver.findElement(By.className('shopping_cart_badge'));
+    await driver.wait(until.elementTextIs(cartBadge, '1'));
 
 
-    // Additional test: Verify Add to cart title changed to Remove
+    // Verify Add to cart title changed to Remove
     const removeButton = await driver.findElement(By.id("remove-sauce-labs-backpack"));
-    const removeButtonDisplayed = await removeButton.isDisplayed();
-    if (removeButtonDisplayed) {
-        console.log("Remove button displayed - Item added successfully.")
+    assert.strictEqual(await removeButton.isDisplayed(), true, "Remove is not displayed");
+
+
+    // Verify Item on the cart
+    await cartIcon.click();
+    const addedItem = await driver.findElement(By.className("inventory_item_name"));
+    assert.strictEqual(await addedItem.isDisplayed(), true, "Added Item is not displayed"); //assert1
+    const addedItemDisplayed = await addedItem.isDisplayed(); //assert2
+    if (addedItemDisplayed) {
+      console.log("Added Item is displayed - Add to cart successful.");
     } else {
-        console.error("Remove button not displayed - Issue with the 'Add to cart' button")
+      console.error("Added Item is not displayed - Add to cart failed.");
     }
 
-
-    // Verify remove the item from the cart
-    await removeButton.click();
-
-
-    // Verify the cart is empty
-    const cartItems = await driver.findElements(By.className('cart_item'));
-    if (cartItems.length === 0) {
-        console.log('Cart is empty after removing the item.');
-    } else {
-        throw new Error('Item was not removed from the cart.');
-    }
 
 } catch (error) {
     console.error("Error during automation:", error);
