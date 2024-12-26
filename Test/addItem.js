@@ -27,7 +27,7 @@ describe("Verify Item in Cart", function () {
     await loginPage.login("standard_user", "secret_sauce");
   });
 
-  it("Should able add item to cart and verify item is in the cart page", async function () {
+  it("Verify add item successful and item displayed on cart page", async function () {
     // Verify add item to the cart
     await dashboardPage.addItemToCart();
 

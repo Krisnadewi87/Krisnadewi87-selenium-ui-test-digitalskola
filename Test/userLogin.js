@@ -29,7 +29,7 @@ describe('Login and Verify Dashboard', function () {
         await loginPage.login(username, passwword);
     });
   
-    it('Should login successfully and show the dashboard with products', async function () {
+    it('Verify login successful and all products displayed on dashboard', async function () {
         const dashboardPage = new DashboardPage(driver);
       
         // Verify product list displayed
