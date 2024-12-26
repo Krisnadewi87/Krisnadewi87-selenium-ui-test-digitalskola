@@ -1,4 +1,5 @@
 const { Builder, By, until } = require("selenium-webdriver");
+const assert = require('assert');
 
 async function sauceDemoTest() {
    // Set up the WebDriver
@@ -14,23 +15,17 @@ async function sauceDemoTest() {
     await driver.findElement(By.id('login-button')).click();
 
     // Verify the dashboard logo is displayed
-    await driver.wait(until.elementLocated(By.className("app_logo")), 5000);
-    const logo = await driver.findElement(By.className("app_logo"));
-    const isLogoDisplayed = await logo.isDisplayed();
-    if (isLogoDisplayed) {
-      console.log("Dashboard logo is displayed - Login successful.");
-    } else {
-      console.error("Dashboard logo not displayed - Login failed.");
-    }
+    let titleText = await driver.findElement(By.xpath("//div[@class='app_logo']")).getText();
+    assert.strictEqual(titleText.includes('Swag Labs'), true, "Title does not include 'Swag Labs'");
+    console.log(titleText);
+
+    // Verify "Burger" button is visible
+    const menuButton = await driver.findElement(By.xpath("//button[@id='react-burger-menu-btn']"));
+    assert.strictEqual(await menuButton.isDisplayed(), true, "Menu button is not displayed");
 
     // Verify the cart icon on the dashboard is displayed
     const cartIcon = await driver.wait(until.elementLocated(By.className("shopping_cart_link")), 5000);
-    const isCartIconDisplayed = await cartIcon.isDisplayed();
-    if (isCartIconDisplayed) {
-      console.log("Cart Icon is displayed - Dashboard loaded successfully.");
-    } else {
-      console.error("Cart Icon not displayed - Issue with the dashboard.");
-    }
+    assert.strictEqual(await cartIcon.isDisplayed(), true, "Cart icon is not displayed");
 
     // Verify product lists are displayed
     const productList = await driver.findElements(By.className("inventory_item"), 5000);
