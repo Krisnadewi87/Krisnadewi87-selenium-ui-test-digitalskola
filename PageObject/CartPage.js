@@ -19,7 +19,7 @@ class CartPage {
   }
 
   // Verify checkout method
-  async isCheckoutBtnDisplayed() {
+  async isCheckoutBtnClick() {
     const checkoutBtn = await this.driver.findElement(this.checkoutButton);
     await checkoutBtn.click();
   }
@@ -39,7 +39,7 @@ class CartPage {
   // Verify continue button
   async isCancelBtnDisplayed() {
     const cancelBtn = await this.driver.findElement(this.cancelButton);
-    await cancelBtn.click();
+    return await cancelBtn.isCancelBtnDisplayed();
   }
 }
 

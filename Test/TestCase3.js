@@ -27,7 +27,7 @@ describe('Test Case 3 [Verify Item in Cart]', function () {
     await loginPage.login("standard_user", "secret_sauce");
   });
 
-  it("Verify the item is on the cart page", async function () {
+  it("Verify checkout method successful", async function () {
     // Verify add item to cart
     await dashboardPage.addItemToCart();
 
