@@ -5,7 +5,7 @@ const CartPage = require("../PageObject/CartPage");
 const fs = require("fs");
 const { expect } = require("chai");
 
-describe("Verify Item in Cart", function () {
+describe('Test Case 2 [Add item to cart]', function () {
   this.timeout(40000);
   let driver;
   let loginPage;

@@ -15,7 +15,7 @@ const passwword = process.env.PASSWORD;
       fs.mkdirSync(screenshotDir, {recursive: true});
   }
 
-describe('Login and Verify Dashboard', function () {
+describe('Test Case 1 [Login and Verify Dashboard]', function () {
     this.timeout(40000);
     let driver;
 
