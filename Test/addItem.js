@@ -3,7 +3,6 @@ const LoginPage = require("../PageObject/LoginPage");
 const DashboardPage = require("../PageObject/Dashboard");
 const CartPage = require("../PageObject/CartPage");
 const fs = require("fs");
-const { expect } = require("chai");
 require('dotenv').config();
 
 const browser = process.env.BROWSER;
