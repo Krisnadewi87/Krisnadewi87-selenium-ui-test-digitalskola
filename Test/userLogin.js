@@ -31,15 +31,14 @@ describe('Login and Verify Dashboard', function () {
     it('Verify login successful and all products displayed on dashboard', async function () {
         const dashboardPage = new DashboardPage(driver);
 
+        // Verify dashboard title displayed
+        await dashboardPage.isDashboardTitleVisible();
+
         // Verify cart icon displayed
         await dashboardPage.isCartIconVisible();
       
         // Verify product list displayed
         await dashboardPage.isProductListVisible();
-
-
-        // Verify dashboard title displayed
-        await dashboardPage.isDashboardTitleVisible();
 
     });
 
