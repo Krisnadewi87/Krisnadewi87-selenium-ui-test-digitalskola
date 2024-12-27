@@ -9,12 +9,19 @@ class DashboardPage {
     this.addToCartButton = By.id("add-to-cart-sauce-labs-backpack"); // Add to cart item for first product
     this.cartIcon = By.className("shopping_cart_link"); // Cart icon
     this.cartBadge = By.className("shopping_cart_badge"); // Cart badge
+    this.dashboardLogo = By.className("title"); // Title displayed
   }
 
-  // Verify the dashboard logo is displayed
-  async isTitleTextVisible() {
-    const titleText = await this.driver.findElement(this.titleText);
-    return await titleText.isDisplayed();
+  // Verify Dashboard Title displayed
+  async isDashboardTitleVisible() {
+    const dashboardLogo = await this.driver.findElement(this.dashboardLogo);
+    return await dashboardLogo.isDisplayed();
+  }
+
+  // Verify Cart Icon displayed
+  async isCartIconVisible() {
+    const cartIcon = await this.driver.findElement(this.cartIcon);
+    return await cartIcon.isDisplayed();
   }
 
   // Verify product list displayed

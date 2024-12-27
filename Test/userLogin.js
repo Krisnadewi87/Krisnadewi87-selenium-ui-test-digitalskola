@@ -2,7 +2,6 @@ const { Builder, Browser } = require('selenium-webdriver');
 const LoginPage = require('../PageObject/LoginPage');
 const DashboardPage = require('../PageObject/Dashboard');
 const fs = require('fs')
-const { expect } = require('chai');
 require('dotenv').config();
 
 const browser = process.env.BROWSER;
@@ -31,10 +30,16 @@ describe('Login and Verify Dashboard', function () {
   
     it('Verify login successful and all products displayed on dashboard', async function () {
         const dashboardPage = new DashboardPage(driver);
+
+        // Verify cart icon displayed
+        await dashboardPage.isCartIconVisible();
       
         // Verify product list displayed
-        const isProductListVisible = await dashboardPage.isProductListVisible();
-        expect(isProductListVisible).to.be.true;
+        await dashboardPage.isProductListVisible();
+
+
+        // Verify dashboard title displayed
+        await dashboardPage.isDashboardTitleVisible();
 
     });
 

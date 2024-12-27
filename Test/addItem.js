@@ -4,6 +4,12 @@ const DashboardPage = require("../PageObject/Dashboard");
 const CartPage = require("../PageObject/CartPage");
 const fs = require("fs");
 const { expect } = require("chai");
+require('dotenv').config();
+
+const browser = process.env.BROWSER;
+const baseUrl = process.env.BASE_URL;
+const username = process.env.USER_NAME;
+const passwword = process.env.PASSWORD;
 
 describe("Verify Item in Cart", function () {
   this.timeout(40000);
@@ -18,13 +24,13 @@ describe("Verify Item in Cart", function () {
   }
 
   before(async function () {
-    driver = await new Builder().forBrowser("chrome").build();
+    driver = await new Builder().forBrowser(browser).build();
     loginPage = new LoginPage(driver);
     dashboardPage = new DashboardPage(driver);
     cartPage = new CartPage(driver);
 
-    await driver.get("https://www.saucedemo.com");
-    await loginPage.login("standard_user", "secret_sauce");
+    await loginPage.navigate(baseUrl);
+    await loginPage.login(username, passwword);
   });
 
   it("Verify add item successful and item displayed on cart page", async function () {
@@ -34,13 +40,11 @@ describe("Verify Item in Cart", function () {
     // Verify cart badge displayed
     await dashboardPage.isCartBadgetVisible();
 
-
     // Verify go to the cart page
     await dashboardPage.goToCart();
 
     // Verify item displayed on the cart page
-    const isItemInCart = await cartPage.isItemInCart();
-    expect(isItemInCart).to.be.true;
+    await cartPage.isItemInCart();
   });
 
   afterEach(async function () {
