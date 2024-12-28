@@ -10,6 +10,7 @@ class CartPage {
     this.informationTitle = By.className("title"); // Your Information title
     this.continueButton = By.id("continue"); // Continue button
     this.cancelButton = By.id("cancel"); // Cancel button
+    this.firstItemName = By.className("inventory_item_name"); // First item name
   }
 
   // Verify item displayed on the cart page
@@ -17,6 +18,13 @@ class CartPage {
     const cartItems = await this.driver.findElements(this.cartItem);
     return cartItems.length > 0; // Verify the cart item element should be more than 0, if there's item in it
   }
+
+  async isFirstItemDisplayed() {
+    const firstItem = await this.driver.findElement(this.firstItemName);
+    return firstItem.getText();
+}
+
+
 
   // Verify checkout method
   async isCheckoutBtnClick() {

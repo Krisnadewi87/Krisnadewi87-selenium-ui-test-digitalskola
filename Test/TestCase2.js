@@ -1,9 +1,10 @@
-const { Builder } = require("selenium-webdriver");
+const { Builder,By } = require("selenium-webdriver");
 const LoginPage = require("../PageObject/LoginPage");
 const DashboardPage = require("../PageObject/Dashboard");
 const CartPage = require("../PageObject/CartPage");
 const fs = require("fs");
 const { expect } = require("chai");
+const assert = require('assert');
 
 describe('Test Case 2 [Add item to cart]', function () {
   this.timeout(40000);
@@ -41,6 +42,9 @@ describe('Test Case 2 [Add item to cart]', function () {
     // Verify item displayed on the cart page
     const isItemInCart = await cartPage.isItemInCart();
     expect(isItemInCart).to.be.true;
+
+    const firstItem = await cartPage.isFirstItemDisplayed();
+    assert.strictEqual(firstItem, 'Sauce Labs Backpack', 'Product name does not match!');
   });
 
   afterEach(async function () {
