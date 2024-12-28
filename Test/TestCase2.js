@@ -21,8 +21,25 @@ describe('Test Case 2 [Add item and validate on cart page]', function () {
   this.timeout(40000);
   let driver;
 
+  switch (browser.toLowerCase()) {
+    case "firefox":
+      const firefox = require("selenium-webdriver/firefox");
+      options = new firefox.Options();
+      options.addArguments("--headless");
+    case "edge":
+      const edge = require("selenium-webdriver/edge");
+      options = new edge.Options();
+      options.addArguments("--headless");
+    case "chrome":
+    default:
+      const chrome = require("selenium-webdriver/chrome");
+      options = new chrome.Options();
+      options.addArguments("--headless");
+      break;
+  }
+
   before(async function () {
-    driver = await new Builder().forBrowser(browser).build();
+    driver = await new Builder().forBrowser(browser).setChromeOptions(options).build();
   });
 
   beforeEach(async function () {
