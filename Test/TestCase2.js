@@ -43,6 +43,7 @@ describe('Test Case 2 [Add item to cart]', function () {
     const isItemInCart = await cartPage.isItemInCart();
     expect(isItemInCart).to.be.true;
 
+    // Verify first item name displayed correctly
     const firstItem = await cartPage.isFirstItemDisplayed();
     assert.strictEqual(firstItem, 'Sauce Labs Backpack', 'Product name does not match!');
   });
