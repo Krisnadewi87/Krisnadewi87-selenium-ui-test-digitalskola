@@ -1,21 +1,38 @@
-const { Builder,By } = require("selenium-webdriver");
+const { Builder, By } = require("selenium-webdriver");
 const LoginPage = require("../PageObject/LoginPage");
 const DashboardPage = require("../PageObject/Dashboard");
 const CartPage = require("../PageObject/CartPage");
 const fs = require("fs");
 const { expect } = require("chai");
-const assert = require('assert');
+const assert = require("assert");
 
-describe('Test Case 2 [Add item to cart]', function () {
+const screenshotDir = "./screenshots/";
+if (!fs.existsSync(screenshotDir)) {
+  fs.mkdirSync(screenshotDir, { recursive: true });
+}
+
+describe("Test Case 2 [Add item to cart]", function () {
   this.timeout(40000);
   let driver;
   let loginPage;
   let dashboardPage;
   let cartPage;
 
-  const screenshotDir = './screenshots/';
-  if(!fs.existsSync(screenshotDir)){
-      fs.mkdirSync(screenshotDir, {recursive: true});
+  switch (browser.toLowerCase()) {
+    case "firefox":
+      const firefox = require("selenium-webdriver/firefox");
+      options = new firefox.Options();
+      options.addArguments("--headless");
+    case "edge":
+      const edge = require("selenium-webdriver/edge");
+      options = new edge.Options();
+      options.addArguments("--headless");
+    case "chrome":
+    default:
+      const chrome = require("selenium-webdriver/chrome");
+      options = new chrome.Options();
+      options.addArguments("--headless");
+      break;
   }
 
   before(async function () {
@@ -35,7 +52,6 @@ describe('Test Case 2 [Add item to cart]', function () {
     // Verify cart badge displayed
     await dashboardPage.isCartBadgetVisible();
 
-
     // Verify go to the cart page
     await dashboardPage.goToCart();
 
@@ -45,7 +61,7 @@ describe('Test Case 2 [Add item to cart]', function () {
 
     // Verify first item name displayed correctly
     const firstItem = await cartPage.isFirstItemDisplayed();
-    assert.strictEqual(firstItem, 'Sauce Labs Backpack', 'Product name does not match!');
+    assert.strictEqual(firstItem, "Sauce Labs Backpack", "Product name does not match!");
   });
 
   afterEach(async function () {
