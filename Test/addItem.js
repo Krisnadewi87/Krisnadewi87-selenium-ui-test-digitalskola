@@ -1,16 +1,12 @@
-const { Builder } = require("selenium-webdriver");
+const { Builder,By } = require("selenium-webdriver");
 const LoginPage = require("../PageObject/LoginPage");
 const DashboardPage = require("../PageObject/Dashboard");
 const CartPage = require("../PageObject/CartPage");
 const fs = require("fs");
-require('dotenv').config();
+const { expect } = require("chai");
+const assert = require('assert');
 
-const browser = process.env.BROWSER;
-const baseUrl = process.env.BASE_URL;
-const username = process.env.USER_NAME;
-const passwword = process.env.PASSWORD;
-
-describe("Verify Item in Cart", function () {
+describe('Test Case 2 [Add item to cart]', function () {
   this.timeout(40000);
   let driver;
   let loginPage;
@@ -23,13 +19,13 @@ describe("Verify Item in Cart", function () {
   }
 
   before(async function () {
-    driver = await new Builder().forBrowser(browser).build();
+    driver = await new Builder().forBrowser("chrome").build();
     loginPage = new LoginPage(driver);
     dashboardPage = new DashboardPage(driver);
     cartPage = new CartPage(driver);
 
-    await loginPage.navigate(baseUrl);
-    await loginPage.login(username, passwword);
+    await driver.get("https://www.saucedemo.com");
+    await loginPage.login("standard_user", "secret_sauce");
   });
 
   it("Verify add item successful and item displayed on cart page", async function () {
@@ -43,7 +39,11 @@ describe("Verify Item in Cart", function () {
     await dashboardPage.goToCart();
 
     // Verify item displayed on the cart page
-    await cartPage.isItemInCart();
+    const cartItems = await cartPage.isItemInCart();
+    expect(cartItems).to.be.true;
+
+    const firstItem = await cartPage.isFirstItemDisplayed();
+    assert.strictEqual(firstItem, 'Sauce Labs Backpack', 'Product name does not match!');
   });
 
   afterEach(async function () {
