@@ -1,34 +1,41 @@
-const { Builder,By } = require("selenium-webdriver");
+const { Builder, By } = require("selenium-webdriver");
 const LoginPage = require("../PageObject/LoginPage");
 const DashboardPage = require("../PageObject/Dashboard");
 const CartPage = require("../PageObject/CartPage");
 const fs = require("fs");
 const { expect } = require("chai");
 const assert = require('assert');
+require("dotenv").config();
 
-describe('Test Case 2 [Add item to cart]', function () {
+const browser = process.env.BROWSER;
+const baseUrl = process.env.BASE_URL;
+const username = process.env.USER_NAME;
+const passwword = process.env.PASSWORD;
+
+const screenshotDir = './screenshots/';
+if(!fs.existsSync(screenshotDir)){
+    fs.mkdirSync(screenshotDir, {recursive: true});
+}
+
+describe('Add item to cart', function () {
   this.timeout(40000);
   let driver;
-  let loginPage;
-  let dashboardPage;
-  let cartPage;
-
-  const screenshotDir = './screenshots/';
-  if(!fs.existsSync(screenshotDir)){
-      fs.mkdirSync(screenshotDir, {recursive: true});
-  }
 
   before(async function () {
-    driver = await new Builder().forBrowser("chrome").build();
-    loginPage = new LoginPage(driver);
-    dashboardPage = new DashboardPage(driver);
-    cartPage = new CartPage(driver);
+    driver = await new Builder().forBrowser(browser).build();
+  });
 
-    await driver.get("https://www.saucedemo.com");
-    await loginPage.login("standard_user", "secret_sauce");
+  beforeEach(async function () {
+    const loginPage = new LoginPage(driver);
+    await loginPage.navigate(baseUrl);
+    await loginPage.login(username, passwword);
+    
   });
 
   it("Verify add item successful and item displayed on cart page", async function () {
+    const dashboardPage = new DashboardPage(driver);
+    const cartPage = new CartPage(driver);
+
     // Verify add item to the cart
     await dashboardPage.addItemToCart();
 
